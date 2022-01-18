@@ -1,0 +1,32 @@
+<div class="alert alert-warning m-2" role="alert">
+    <span>To connect to the websocket server click on </span>
+    <a
+        style="cursor: pointer"
+        class="border-0 bg-transparent text-success"
+        (click)="connect()"
+    >Connect</a
+    >
+    <span>, otherwise click on </span>
+    <a
+        style="cursor: pointer"
+        class="border-0 bg-transparent text-danger"
+        (click)="disconnect()"
+    >Disconnect</a
+    >
+</div>
+<div class="alert alert-info m-2" role="alert">
+  <span>To change user state select the state </span>
+  <select [(ngModel)]="state">
+    <option [value]="userState.ONLINE">{{userState.ONLINE}}</option>
+    <option [value]="userState.OFFLINE">{{userState.OFFLINE}}</option>
+    <option [value]="userState.BUSY">{{userState.BUSY}}</option>
+    <option [value]="userState.AWAY">{{userState.AWAY}}</option>
+  </select>
+  <span> then </span>
+  <a
+    style="cursor: pointer"
+    class="border-0 bg-transparent text-success"
+    (click)="changeStatus()"
+  >Validate</a> .
+</div>
+

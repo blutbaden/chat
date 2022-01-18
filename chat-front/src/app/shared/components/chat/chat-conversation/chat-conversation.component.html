@@ -1,0 +1,87 @@
+<div class="bg-white">
+  <div class="heading">
+    <div class="d-flex align-items-center">
+      <div class="heading-avatar">
+        <ngx-avatar [name]="getConversationHeaderName()" size="40"></ngx-avatar>
+        <span *ngIf="type=='PRIVATE'" class="user-info {{ getStateClass('bg') }}"></span>
+      </div>
+      <a class="heading-name-meta">{{ getConversationHeaderName() }}</a>
+    </div>
+    <button
+      class="btn call-btn"
+      [disabled]="isCallNotAllowed()"
+      (click)="makeCall()"
+    >
+      <i class="fa fa-phone"></i>
+    </button>
+  </div>
+  <div
+    #scroll
+    (scrolledUp)="onScrollUp()"
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    [scrollTop]="scrollTop"
+    [scrollWindow]="false"
+    class="chats"
+    id="conversation"
+    infiniteScroll
+  >
+    <ng-container *ngIf="isLoading">
+      <div class="mt-1 d-flex justify-content-center">
+        <custom-spinner></custom-spinner>
+      </div>
+    </ng-container>
+    <ng-container
+      *ngIf="conversations.length && !isLoading; else emptyConversation"
+    >
+      <div
+        *ngFor="let conversation of conversations"
+        [ngClass]="
+          isMessageSentByLoggedUser(conversation.user)
+            ? 'chat-right'
+            : 'chat-left'
+        "
+        class="chat"
+      >
+        <div class="chat-body">
+          <div class="chat-content">
+            <span class="chat-user">{{
+              isMessageSentByLoggedUser(conversation.user)
+                ? ''
+                : conversation.user?.login
+              }}</span>
+            <p> {{ conversation.message }} </p>
+            <time class="chat-time">{{
+              conversation.timestamp | dateAgo
+              }}</time>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="d-flex align-items-center reply">
+    <app-chat-emoji *ngIf="enableEmoji"></app-chat-emoji>
+    <div class="flex- reply-main">
+      <textarea
+        (keydown.enter)="sendMessage()"
+        placeholder="Your message here."
+        [(ngModel)]="message"
+        class="form-control"
+        id="comment"
+        rows="1"
+      ></textarea>
+    </div>
+    <a *ngIf="enableRecordingMessage" class="reply-recording">
+      <i aria-hidden="true" class="fa fa-microphone"></i>
+    </a>
+    <a (click)="sendMessage()" class="reply-send">
+      <i aria-hidden="true" class="fa fa-send"></i>
+    </a>
+  </div>
+</div>
+
+<ng-template #emptyConversation>
+  <div style="margin-top: 50%" class="text-center">
+    <span class="small text-black-50">No messages yet</span>
+  </div>
+</ng-template>

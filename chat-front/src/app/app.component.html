@@ -1,0 +1,59 @@
+<div>
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand font-weight-bold font-italic" href="#">CHAT</a>
+    <ul class="navbar-nav mr-auto" routerLinkActive="active">
+      <li class="nav-item">
+        <a [routerLinkActive]="'active'" class="nav-link" routerLink="home">
+          <i class="fa fa-home"></i>
+          Home
+        </a>
+      </li>
+      <li *hasAnyAuthority="'ROLE_ADMIN'" class="nav-item">
+        <a [routerLinkActive]="'active'" class="nav-link" routerLink="group">
+          <i class="fa fa-users"></i>
+          Group
+        </a>
+      </li>
+    </ul>
+    <div class="my-2 my-lg-0">
+      <ul class="navbar-nav" routerLinkActive="active">
+        <ng-container *ngIf="isAuthenticated(); else anonymous">
+          <li class="nav-item">
+            <app-chat-user-state></app-chat-user-state>
+          </li>
+          <li class="nav-item">
+            <a
+              (click)="logout()"
+              class="nav-link text-danger"
+              style="cursor: pointer"
+            >
+              <i class="fa fa-sign-out"></i>
+              Logout
+            </a>
+          </li>
+        </ng-container>
+        <ng-template #anonymous>
+          <a class="nav-link" routerLink="login">
+            <i class="fa fa-sign-in"></i>
+            Login
+          </a>
+          <a class="nav-link" routerLink="register">
+            <i class="fa fa-rocket"></i>
+            Register
+          </a>
+        </ng-template>
+      </ul>
+    </div>
+  </nav>
+  <ng-container *ngIf="isAuthenticated()">
+    <div [ngClass]="{show: showChatPanel}" class="settings">
+      <button
+        (click)="showChatPanel = !showChatPanel"
+        class="btn btn-default toggle"
+      ><i class="fa fa-comment"></i>
+      </button>
+      <app-chat></app-chat>
+    </div>
+  </ng-container>
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,84 @@
+<input
+  [(ngModel)]="query"
+  class="search-box w-100 p-2 my-2 border-0"
+  placeholder="Search Group"
+/>
+<ng-container *ngIf="groups$ | async as groups; else loading">
+  <ng-container *ngIf="groups.length; else emptyGroup">
+    <div class="sidebar">
+      <ngb-accordion
+        (panelChange)="onPanelChange($event)"
+        [destroyOnHide]="true"
+        [closeOthers]="true"
+        activeIds=""
+      >
+        <ngb-panel
+          (click)="onShowPanel(group)"
+          *ngFor="let group of groups | searchFilter: query; let index = index"
+          id="panel-{{ index }}"
+        >
+          <ng-template ngbPanelTitle>
+            <div class="group-info d-flex align-items-center">
+              <ngx-avatar [name]="group.name" size="40"></ngx-avatar>
+              <span class="name-meta mx-2">{{ group.name }}</span>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div class="sidebar overflow-hidden">
+              <a (click)="handleRoomAction(group)" class="text-danger pl-1">
+                <span class="pr-1">Add Room</span>
+                <i class="fa fa-plus"></i>
+              </a>
+              <ng-container *ngIf="!isLoadingRooms; else loading">
+                <ng-container
+                  *ngIf="roomsData && roomsData.length; else emptyRooms"
+                >
+                  <div
+                    class="d-flex align-items-center justify-content-between bg-light overflow-hidden m-3 p-2"
+                    *ngFor="let roomData of roomsData"
+                  >
+                    <a
+                      (click)="onSelectRoom(roomData.room)"
+                      class="text-primary"
+                      style="cursor: pointer"
+                    >{{ roomData.room.name }}</a
+                    >
+                    <div *ngIf="roomData.count > 0" class="message-count">
+                      <span>{{ roomData.count }}</span>
+                    </div>
+                    <div *ngIf="isRoomCreatedByCurrentUser(roomData.room)">
+                      <a (click)="handleRoomAction(group, roomData.room)">
+                        <i class="text-primary mx-1 fa fa-pencil"></i>
+                      </a>
+                      <a (click)="deleteRoom(roomData.room)">
+                        <i class="text-danger fa fa-trash"></i>
+                      </a>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #loading>
+  <div class="d-flex justify-content-center">
+    <custom-spinner></custom-spinner>
+  </div>
+</ng-template>
+
+<ng-template #emptyGroup>
+  <div class="d-flex justify-content-center text-danger small shadow-sm font-italic">
+    No groups
+  </div>
+</ng-template>
+
+<ng-template #emptyRooms>
+  <div class="overflow-hidden m-3 p-2 text-black-50 small">
+    No rooms
+  </div>
+</ng-template>

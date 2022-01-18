@@ -1,0 +1,113 @@
+<div class="container mt-5">
+  <h2 id="group-heading" data-cy="GroupCreateUpdateHeading">
+    Create or edit a Group
+  </h2>
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Details</a>
+      <ng-template ngbNavContent>
+        <form
+          name="editForm"
+          role="form"
+          novalidate
+          (ngSubmit)="save()"
+          [formGroup]="editForm"
+        >
+          <div>
+            <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+              <label class="form-control-label" for="field_id">ID</label>
+              <input
+                type="number"
+                class="form-control"
+                name="id"
+                id="field_id"
+                data-cy="id"
+                formControlName="id"
+                [readonly]="true"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_name">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                id="field_name"
+                data-cy="name"
+                formControlName="name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="field_isActivated"
+              >Is Activated</label
+              >
+              <input
+                type="checkbox"
+                class="form-check"
+                name="isActivated"
+                id="field_isActivated"
+                data-cy="isActivated"
+                formControlName="isActivated"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="field_users">Users</label>
+              <select
+                class="form-control"
+                id="field_users"
+                data-cy="users"
+                multiple
+                name="users"
+                formControlName="users"
+              >
+                <option
+                  [ngValue]="
+                getSelectedUser(userOption, editForm.get('users')!.value)
+              "
+                  *ngFor="
+                let userOption of usersSharedCollection;
+                trackBy: trackUserById
+              "
+                >
+                  {{ userOption.login }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="button"
+              id="cancel-save"
+              data-cy="entityCreateCancelButton"
+              class="btn btn-secondary"
+              (click)="previousState()"
+            >
+              <i class="fa fa-ban"></i>&nbsp;<span>Cancel</span>
+            </button>
+
+            <button
+              type="submit"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              [disabled]="editForm.invalid || isSaving"
+              class="btn btn-primary"
+            >
+              <i class="fa fa-save"></i>&nbsp;<span>Save</span>
+            </button>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Rooms</a>
+      <ng-template ngbNavContent>
+        <app-room [group]="group"></app-room>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-2 p-4 shadow-lg card"></div>
+</div>

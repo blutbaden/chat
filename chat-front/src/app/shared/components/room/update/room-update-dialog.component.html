@@ -1,0 +1,95 @@
+<form class="p-2" name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+  <div>
+    <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+      <label class="form-control-label" for="field_id">ID</label>
+      <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="field_name">Name</label>
+      <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="field_isActivated">Is Activated</label>
+      <input
+        type="checkbox"
+        class="form-check"
+        name="isActivated"
+        id="field_isActivated"
+        data-cy="isActivated"
+        formControlName="isActivated"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="field_allowImageMessage"
+      >Allow Image Message</label
+      >
+      <input
+        type="checkbox"
+        class="form-check"
+        name="allowImageMessage"
+        id="field_allowImageMessage"
+        data-cy="allowImageMessage"
+        formControlName="allowImageMessage"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="field_allowVoiceMessage"
+      >Allow Voice Message</label
+      >
+      <input
+        type="checkbox"
+        class="form-check"
+        name="allowVoiceMessage"
+        id="field_allowVoiceMessage"
+        data-cy="allowVoiceMessage"
+        formControlName="allowVoiceMessage"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="field_allowStickerMessage"
+      >Allow Sticker Message</label
+      >
+      <input
+        type="checkbox"
+        class="form-check"
+        name="allowStickerMessage"
+        id="field_allowStickerMessage"
+        data-cy="allowStickerMessage"
+        formControlName="allowStickerMessage"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="field_users">User</label>
+      <select class="form-control" id="field_users" data-cy="user" multiple name="users" formControlName="users">
+        <option
+          [ngValue]="getSelectedUser(userOption, editForm.get('users')!.value)"
+          *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+        >
+          {{ userOption.login }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="cancel()">
+      <i class="fa fa-ban"></i>&nbsp;<span>Cancel</span>
+    </button>
+
+    <button
+      type="submit"
+      id="save-entity"
+      data-cy="entityCreateSaveButton"
+      [disabled]="editForm.invalid || isSaving"
+      class="btn btn-primary"
+    >
+      <i class="fa fa-save"></i>&nbsp;<span>Save</span>
+    </button>
+  </div>
+</form>

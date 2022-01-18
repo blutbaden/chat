@@ -1,0 +1,80 @@
+<div>
+  <h2 id="page-heading" data-cy="RoomHeading">
+    <span>Rooms</span>
+
+    <div class="d-flex justify-content-end">
+      <button
+        class="btn btn-info mr-2"
+        (click)="loadAll()"
+        [disabled]="isLoading"
+      >
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        (click)="create()"
+        id="create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary create-entity create-room"
+      >
+        <i class="fa fa-plus"></i>
+        <span> Create a new Room </span>
+      </button>
+    </div>
+  </h2>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="rooms?.length === 0">
+    <span>No rooms found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="rooms && rooms.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+      <tr>
+        <th scope="col"><span>ID</span></th>
+        <th scope="col"><span>Name</span></th>
+        <th scope="col"><span>Is Activated</span></th>
+        <th scope="col"><span>User</span></th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let room of rooms; trackBy: trackId" data-cy="entityTable">
+        <td>
+          <a>{{ room.id }}</a>
+        </td>
+        <td>{{ room.name }}</td>
+        <td>{{ room.isActivated }}</td>
+        <td>
+            <span *ngFor="let user of room.users; let last = last">
+              {{ user.login }}{{ last ? '' : ', ' }}
+            </span>
+        </td>
+        <td class="text-right">
+          <div class="btn-group">
+            <button
+              (click)="update(room.id!)"
+              type="submit"
+              class="btn btn-primary btn-sm"
+              data-cy="entityEditButton"
+            >
+              <i class="fa fa-pencil"></i>
+              <span class="d-none d-md-inline">Edit</span>
+            </button>
+
+            <button
+              type="submit"
+              (click)="delete(room)"
+              class="btn btn-danger btn-sm"
+              data-cy="entityDeleteButton"
+            >
+              <i class="fa fa-times"></i>
+              <span class="d-none d-md-inline">Delete</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-center h-100">
+  <button ngbDropdown class="btn p-0 bg-transparent image_outer_container">
+    <div class="state-dropdown {{getCurrentStateClass()}}" ngbDropdownToggle>
+      <div class="dropdown-menu" ngbDropdownMenu>
+        <button (click)="onChangeState(userState.ONLINE)" ngbDropdownItem>
+          <span class="state-icon bg-success"></span>
+          <span>{{userState.ONLINE}}</span>
+        </button>
+        <button (click)="onChangeState(userState.AWAY)" ngbDropdownItem>
+          <span class="state-icon bg-warning"></span>
+          <span>{{userState.AWAY}}</span>
+        </button>
+        <button (click)="onChangeState(userState.BUSY)" ngbDropdownItem>
+          <span class="state-icon bg-danger"></span>
+          <span>{{userState.BUSY}}</span>
+        </button>
+        <button (click)="onChangeState(userState.OFFLINE)" ngbDropdownItem>
+          <span class="state-icon bg-secondary"></span>
+          <span>{{userState.OFFLINE}}</span>
+        </button>
+      </div>
+    </div>
+    <div class="image_inner_container">
+      <img alt="avatar" src="{{userImage}}">
+    </div>
+  </button>
+</div>

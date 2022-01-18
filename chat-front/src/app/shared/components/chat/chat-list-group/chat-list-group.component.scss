@@ -1,0 +1,56 @@
+.sidebar {
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: #fff;
+  overflow-y: auto;
+  //border: 1px solid #f7f7f7;
+  height: calc(100% - 120px);
+}
+.search-box {
+  background-color: #ebe9e9;
+}
+.search-box:focus {
+  outline: 0;
+  border: none;
+  box-shadow: none;
+}
+.sidebar-body {
+  position: relative;
+  border-bottom: 1px solid #f7f7f7;
+  height: 50px;
+  margin: 0 !important;
+  cursor: pointer;
+}
+.sidebar-body:hover {
+  background-color: #f2f2f2;
+}
+.sidebar-avatar {
+  text-align: center;
+  padding: 0 !important;
+}
+.sidebar-name {
+  padding: 10px !important;
+}
+.name-meta {
+  font-size: 100%;
+  padding: 1% !important;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #000;
+}
+.message-count {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 5px 10px;
+  color: rgb(255, 255, 255);
+  background: black;
+  margin: 10px;
+  border-radius: 50%;
+}
+
+.group-info:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}

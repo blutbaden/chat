@@ -1,0 +1,53 @@
+<div class="bg-white shadow-lg">
+  <ng-container *ngIf="isConversation; else showTabs">
+    <div class="">
+      <button
+        (click)="isConversation = !isConversation"
+        class="btn bg-transparent"
+      >
+        <i class="fa fa-arrow-left"></i>
+        <span class="ml-4 font-weight-light">Return</span>
+      </button>
+    </div>
+    <app-chat-conversation
+      [sender]="sender"
+      [receiver]="receiver"
+      [room]="selectedRoom"
+      [type]="activeTab === 1 ? 'GROUP' : 'PRIVATE'"
+    ></app-chat-conversation>
+  </ng-container>
+</div>
+<ng-template #showTabs>
+  <ul #nav="ngbNav" (navChange)="receiver = undefined" [(activeId)]="activeTab" class="nav-tabs" ngbNav>
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>
+        <i class="fa fa-group"></i>
+        Groups
+      </a>
+      <ng-template ngbNavContent>
+        <app-chat-list-group
+          (selectedRoom)="onSelectRoom($event)"
+          [loggedUser]="sender"
+        ></app-chat-list-group>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>
+        <i class="fa fa-user"></i>
+        Users
+      </a>
+      <ng-template ngbNavContent>
+        <app-chat-list-user
+          (selectedRoom)="onSelectRoom($event)"
+          (selectedUser)="receiver = $event"
+        ></app-chat-list-user>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</ng-template>
+<app-chat-call-modal
+  (callAccepted)="handleCallAction(callState.ACCEPTED_CALL)"
+  (callCanceled)="handleCallAction(callState.CANCELLED_CALL)"
+  (callRejected)="handleCallAction(callState.REJECTED_CALL)"
+></app-chat-call-modal>

@@ -1,0 +1,48 @@
+<ng-template #callPendingModal>
+  <div class="modal-header">
+      <span class="text-center m-auto text-black-50">
+        {{state}}
+      </span>
+  </div>
+  <div class="modal-body d-flex flex-column align-items-center justify-content-center text-center">
+    <ngx-avatar [src]="'../../../../../assets/img/default-user.jpg'" size="100"></ngx-avatar>
+    <span class="name py-3 text-danger">{{name}}</span>
+  </div>
+  <div class="modal-footer d-flex items-center" [ngClass]="state == callState.INCOMING_CALL ? 'justify-content-between': 'justify-content-center'">
+    <ng-container *ngIf="state == callState.INCOMING_CALL; else receiveCallAction">
+      <button (click)="acceptCall()" class="action-btn btn bg-transparent">
+        <div class="pulse"><i class="fa fa-phone fa-2x"></i></div>
+      </button>
+      <button (click)="rejectCall()" class="action-btn btn bg-danger rounded-pill" style="padding: 10px 14px;"
+              type="button">
+        <i class="fa fa-close text-white fa-2x"></i>
+      </button>
+    </ng-container>
+    <ng-template #receiveCallAction>
+      <button (click)="cancelCall()" class="action-btn btn bg-danger rounded-pill" style="padding: 10px 14px;"
+              type="button">
+        <i class="fa fa-close text-white fa-2x"></i>
+      </button>
+    </ng-template>
+  </div>
+</ng-template>
+
+<ng-template #callAcceptedModal>
+  <div class="bg-dark" id="jitsi-iframe"></div>
+</ng-template>
+
+<ng-template #callErrorModal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Oops, something bad happened !</h4>
+    <button type="button" class="close" aria-label="Close" (click)="hideModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-danger">An error has been occurred when initiate the call ! Please retry later or contact the administrator.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="hideModal()">Ok</button>
+  </div>
+</ng-template>
+

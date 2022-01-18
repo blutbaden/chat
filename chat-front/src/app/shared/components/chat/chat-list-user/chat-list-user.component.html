@@ -1,0 +1,42 @@
+<input
+  [(ngModel)]="query"
+  class="search-box w-100 p-2 my-2 border-0"
+  placeholder="Search People"
+/>
+<ng-container *ngIf="isLoading; else showUsers">
+  <div class="d-flex justify-content-center">
+    <custom-spinner></custom-spinner>
+  </div>
+</ng-container>
+<ng-template #showUsers>
+  <div *ngIf="usersInfo.length; else noUsers" class="sidebar">
+    <div
+      (click)="onSelectUser({user: item.user, state: item.state})"
+      *ngFor="let item of usersInfo | searchFilter: query"
+      class="overflow-hidden d-flex justify-content-between align-items-center sidebar-body"
+    >
+      <div class="sidebar-user">
+        <div class="user-avatar">
+          <ngx-avatar [name]="getUsername(item.user)" size="40"></ngx-avatar>
+          <span class="user-info {{ getStateClass('bg', item.state) }}"></span>
+        </div>
+        <div class="sidebar-name">
+          <span class="name-meta">{{ getUsername(item.user) }}</span>
+        </div>
+      </div>
+      <div class="d-flex align-items-center">
+        <div *ngIf="item.count > 0" class="message-count">
+          <span>{{ item.count }}</span>
+        </div>
+        <!--<a (click)="onCallUser(item.user)" class="call-btn">
+          <i class="fa fa-phone text-success"></i>
+        </a>-->
+      </div>
+    </div>
+  </div> </ng-template
+>
+<ng-template #noUsers>
+  <div class="d-flex justify-content-center text-danger small shadow-sm font-italic">
+    No Users
+  </div>
+</ng-template>

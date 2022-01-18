@@ -1,0 +1,86 @@
+<div class="container card shadow-lg mt-5">
+  <h2 data-cy="GroupHeading" id="page-heading">
+    <span>Groups</span>
+
+    <div class="d-flex justify-content-end">
+      <button
+        (click)="loadAll()"
+        [disabled]="isLoading"
+        class="btn btn-info mr-2"
+      >
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        [routerLink]="['/group/new']"
+        class="btn btn-primary create-group"
+        data-cy="entityCreateButton"
+      >
+        <i class="fa fa-plus"></i>
+        <span> Create a new Group </span>
+      </button>
+    </div>
+  </h2>
+
+  <div *ngIf="groups?.length === 0" class="alert alert-warning" id="no-result">
+    <span>No groups found</span>
+  </div>
+
+  <div
+    *ngIf="groups && groups.length > 0"
+    class="table-responsive"
+    id="entities"
+  >
+    <table aria-describedby="page-heading" class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col"><span>ID</span></th>
+        <th scope="col"><span>Name</span></th>
+        <th scope="col"><span>Is Activated</span></th>
+        <th scope="col"><span>Users</span></th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let group of groups; trackBy: trackId"
+        data-cy="entityTable"
+      >
+        <td>
+          <a>{{ group.id }}</a>
+        </td>
+        <td>{{ group.name }}</td>
+        <td>{{ group.isActivated }}</td>
+        <td>
+            <span *ngFor="let users of group.users; let last = last">
+              {{ users.login }}{{ last ? '' : ', ' }}
+            </span>
+        </td>
+        <td class="text-right">
+          <div class="btn-group">
+            <button
+              [routerLink]="['/group', group.id, 'edit']"
+              class="btn btn-primary btn-sm"
+              data-cy="entityEditButton"
+              type="submit"
+            >
+              <i class="fa fa-pencil"></i>
+              <span class="d-none d-md-inline">Edit</span>
+            </button>
+
+            <button
+              (click)="delete(group)"
+              class="btn btn-danger btn-sm"
+              data-cy="entityDeleteButton"
+              type="submit"
+            >
+              <i class="fa fa-times"></i>
+              <span class="d-none d-md-inline">Delete</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

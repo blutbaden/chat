@@ -1,0 +1,47 @@
+{
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isActivated",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "allowImageMessage",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "allowVoiceMessage",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "allowStickerMessage",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipName": "user",
+      "otherEntityName": "user",
+      "relationshipType": "many-to-many",
+      "otherEntityField": "login",
+      "ownerSide": true,
+      "otherEntityRelationshipName": "room"
+    },
+    {
+      "relationshipName": "group",
+      "otherEntityName": "group",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id"
+    }
+  ],
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "Room",
+  "changelogDate": "20211227092002"
+}

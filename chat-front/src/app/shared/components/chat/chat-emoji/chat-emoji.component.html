@@ -1,0 +1,13 @@
+<div class="emoji-opener" (click)="togglePopup()">
+  <i class="fa fa-smile-o"></i>
+</div>
+<div class="emoji-search" [ngClass]="popupAnchor" [hidden]="!popupOpen">
+  <div class="search-header">
+    <input type="search" [(ngModel)]="filterEmojis" placeholder="Search..." />
+  </div>
+  <div class="emojis-container">
+    <span *ngFor="let emoji of getFilteredEmojis()" (click)="onEmojiClick(emoji.emoji)" title="{{emoji.aliases[0]}}">
+      {{emoji.emoji}}
+    </span>
+  </div>
+</div>
